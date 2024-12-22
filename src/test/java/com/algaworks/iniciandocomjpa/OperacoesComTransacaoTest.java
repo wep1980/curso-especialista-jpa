@@ -31,6 +31,20 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
     }
 
     @Test
+    public void removerObjeto() {
+        Produto produto = entityManager.find(Produto.class, 3);
+
+        entityManager.getTransaction().begin();
+        entityManager.remove(produto);
+        entityManager.getTransaction().commit();
+
+//        entityManager.clear(); Não é necessário na asserção para operação de remoção.
+
+        Produto produtoVerificacao = entityManager.find(Produto.class, 3);
+        Assertions.assertNull(produtoVerificacao);
+    }
+
+    @Test
     public void abrirEFecharATransacao() {
 //        Produto produto = new Produto(); // Somente para o método não mostrar erros.
 
