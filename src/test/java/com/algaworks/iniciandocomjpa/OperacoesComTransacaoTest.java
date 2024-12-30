@@ -11,6 +11,57 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
 
     @Test
+    public void mostrarDifencaPersistMerge() {
+
+        // ********* METODO PERSIST ***************
+
+        Produto produtoPersist = new Produto();
+
+        produtoPersist.setId(5);
+        produtoPersist.setNome("Smartphone One Plus");
+        produtoPersist.setDescricao("O processador mais rápido.");
+        produtoPersist.setPreco(new BigDecimal(2000));
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(produtoPersist); // nesse momento ele faz o persist
+        produtoPersist.setNome("Smartphone Two Plus"); // e aqui ele faz o update, pois o objeto ainda esta sendo gerenciado pelo hibernate
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Produto produtoVerificacaoPersist = entityManager.find(Produto.class, produtoPersist.getId());
+        Assertions.assertNotNull(produtoVerificacaoPersist);
+
+
+        // ********* METODO MERGE ***************
+
+        Produto produtoMerge = new Produto();
+
+        produtoMerge.setId(6);
+        produtoMerge.setNome("Notebook Dell");
+        produtoMerge.setDescricao("O melhor da categoria.");
+        produtoMerge.setPreco(new BigDecimal(2000));
+
+        entityManager.getTransaction().begin();
+
+       // entityManager.merge(produtoMerge); // ao fazer o merge, o hibernate faz uma copia do objeto que é a que fica gerenciada
+        //produtoMerge.setNome("Notebook Dell 2"); // ao tentar atualizar o nome, nada acontece, pois nesse momento o hibernate nao esta utilizando a copia do objeto que esta sendo gerenciada pelo hibernate
+
+
+        produtoMerge = entityManager.merge(produtoMerge); // dessa forma aqui esta sendo utlizada a copia gerencia pelo hibernate e agora sim o setNome ira funcionar
+        produtoMerge.setNome("Notebook Dell 2");
+
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Produto produtoVerificacaoMerge = entityManager.find(Produto.class, produtoMerge.getId());
+        Assertions.assertNotNull(produtoVerificacaoMerge);
+    }
+
+
+    @Test
     public void inserirObjetoComMerge() {
         Produto produto = new Produto();
 
