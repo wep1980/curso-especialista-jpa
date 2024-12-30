@@ -11,6 +11,28 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
 
     @Test
+    public void impedirOperacaoComBancoDeDadosComDetach() {
+
+        Produto produto = entityManager.find(Produto.class, 1);
+
+        entityManager.detach(produto); // com detach ele deixa de atualizar o banco de dados, pois tira a instancia do gerenciamento do hibernate
+
+        entityManager.getTransaction().begin();
+        produto.setNome("Kindle Paperwhite 2ª Geração");
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Produto produtoVerificacao = entityManager.find(Produto.class, produto.getId());
+
+        // Aqui acontece um erro, pois nao feito o update dado que a instancia deixou de ser gerenciada pelo hibernate por conta do metodo detach
+        //Assertions.assertEquals("Kindle Paperwhite 2ª Geração", produtoVerificacao.getNome());
+
+        Assertions.assertEquals("Kindle", produtoVerificacao.getNome());
+    }
+
+
+    @Test
     public void mostrarDifencaPersistMerge() {
 
         // ********* METODO PERSIST ***************
