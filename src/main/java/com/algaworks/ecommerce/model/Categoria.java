@@ -1,20 +1,19 @@
 package com.algaworks.ecommerce.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "produto")
-public class Produto {
+@Table(name = "categoria")
+public class Categoria {
 
     @EqualsAndHashCode.Include
     @Id
@@ -22,7 +21,6 @@ public class Produto {
 
     private String nome;
 
-    private String descricao;
-
-    private BigDecimal preco;
+    @Column(name = "categoria_pai_id")
+    private Integer categoriaPaiId;
 }

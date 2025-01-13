@@ -1,5 +1,7 @@
 package com.algaworks.ecommerce.model;
 
+import com.algaworks.ecommerce.enums.StatusPagamento;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,22 +9,23 @@ import lombok.Setter;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import java.math.BigDecimal;
 
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "produto")
-public class Produto {
+@Table(name = "pagamento_boleto")
+public class PagamentoBoleto {
 
     @EqualsAndHashCode.Include
     @Id
     private Integer id;
 
-    private String nome;
+    @Column(name = "pedido_id")
+    private Integer pedidoId;
 
-    private String descricao;
+    private StatusPagamento status;
 
-    private BigDecimal preco;
+    @Column(name = "codigo_barras")
+    private String codigoBarras;
 }
