@@ -1,14 +1,11 @@
 package com.algaworks.ecommerce.model;
 
 import com.algaworks.ecommerce.enums.StatusPedido;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -34,5 +31,6 @@ public class Pedido {
 
     private BigDecimal total;
 
+    @Enumerated(EnumType.STRING)
     private StatusPedido status;
 }

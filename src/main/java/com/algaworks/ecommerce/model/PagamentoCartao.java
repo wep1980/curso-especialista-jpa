@@ -1,14 +1,10 @@
 package com.algaworks.ecommerce.model;
 
 import com.algaworks.ecommerce.enums.StatusPagamento;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
 @Getter
 @Setter
@@ -24,6 +20,7 @@ public class PagamentoCartao {
     @Column(name = "pedido_id")
     private Integer pedidoId;
 
+    @Enumerated(EnumType.STRING)
     private StatusPagamento status;
 
     private String numero;
