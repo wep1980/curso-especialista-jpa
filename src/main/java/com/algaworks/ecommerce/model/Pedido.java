@@ -33,4 +33,7 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
+
+    @Embedded // As colunas dessa classe, fazem parte da tabela pedido
+    private EnderecoEntregaPedido enderecoEntrega;
 }
